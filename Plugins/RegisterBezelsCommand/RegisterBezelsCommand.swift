@@ -15,35 +15,39 @@ struct RegisterBezelsCommand: BuildToolPlugin {
         target: any PackagePlugin.Target
     ) async throws -> [PackagePlugin.Command] {
         let cacheDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        let bezelsDirectoryURL = cacheDirectoryURL.appending(
+        let bezelsRootURL = cacheDirectoryURL.appending(
             path: "com.shitamori1272.AppScreenshotKit/AppleDesignResource"
         )
-        let outputDirectoryURL = context.pluginWorkDirectoryURL.appending(path: "AppleDesignResource")
+        let sourceBezelsURL = bezelsRootURL.appending(path: "Bezels")
+        let outputRootURL = context.pluginWorkDirectoryURL.appending(path: "AppleDesignResource")
+        let outputBezelsURL = outputRootURL.appending(path: "Bezels")
 
-        guard FileManager.default.fileExists(atPath: bezelsDirectoryURL.path) else {
+        guard FileManager.default.fileExists(atPath: sourceBezelsURL.path) else {
             Diagnostics.warning(
-                "No bezels found in \(bezelsDirectoryURL.path). Please run the command to download bezels first.\n \"swift run AppScreenshotKitCLI download-bezel-image\""
+                "No bezels found in \(sourceBezelsURL.path). Please download Apple's bezel resources manually and place them under this directory."
             )
 
-            try FileManager.default.createDirectory(at: outputDirectoryURL, withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(at: outputBezelsURL, withIntermediateDirectories: true)
 
             return [
                 .buildCommand(
                     displayName: "Register Dummy Bezel image file",
                     executable: URL(fileURLWithPath: "/usr/bin/touch"),
                     arguments: [
-                        outputDirectoryURL.appending(path: "dummy.txt").path()
+                        outputBezelsURL.appending(path: "dummy.txt").path()
                     ],
                     environment: [:],
                     inputFiles: [
                         cacheDirectoryURL
                     ],
                     outputFiles: [
-                        outputDirectoryURL
+                        outputBezelsURL
                     ]
                 )
             ]
         }
+
+        try FileManager.default.createDirectory(at: outputRootURL, withIntermediateDirectories: true)
 
         return [
             .buildCommand(
@@ -51,15 +55,15 @@ struct RegisterBezelsCommand: BuildToolPlugin {
                 executable: URL(fileURLWithPath: "/bin/cp"),
                 arguments: [
                     "-R",
-                    bezelsDirectoryURL.path(),
-                    outputDirectoryURL.path(),
+                    sourceBezelsURL.path(),
+                    outputRootURL.path(),
                 ],
                 environment: [:],
                 inputFiles: [
                     cacheDirectoryURL
                 ],
                 outputFiles: [
-                    outputDirectoryURL
+                    outputBezelsURL
                 ]
             )
         ]

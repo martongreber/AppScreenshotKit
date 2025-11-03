@@ -36,7 +36,18 @@ struct BezelImageLoader {
             case .iPadAir13M2: ["iPad Air 13 (M2)"]
             default: []
             }
-        return ([defaultDeviceName] + candidates)
-            .map { "\($0) - \(device.color.rawValue) - \(device.orientation.rawValue).png" }
+        return ([defaultDeviceName] + candidates).flatMap { baseName -> [String] in
+            var results: [String] = [
+                "\(baseName) - \(device.color.rawValue) - \(device.orientation.rawValue).png"
+            ]
+
+            if device.model.category == .mac {
+                results.append(contentsOf: [
+                    "\(baseName) - \(device.color.rawValue).png",
+                    "\(baseName) \(device.color.rawValue).png"
+                ])
+            }
+            return results
+        }
     }
 }

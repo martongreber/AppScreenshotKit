@@ -150,4 +150,9 @@ package enum AppScreenshoSamples {
             sizes: AppScreenshotSize.iPhone14ProMaxAll
         )
     }
+    package enum AppScreenshotMac: AppScreenshoSample {
+        package static let configuration = AppScreenshotConfiguration(
+            sizes: AppScreenshotSize.macAll
+        )
+    }
 }

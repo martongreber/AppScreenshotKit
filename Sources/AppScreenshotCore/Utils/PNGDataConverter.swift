@@ -52,7 +52,62 @@ struct PNGDataConverter {
             }
 
             view.cacheDisplay(in: view.bounds, to: bitmapRep)
-            guard let data = bitmapRep.representation(using: .png, properties: [:]) else {
+            let targetRect = rect ?? CGRect(origin: .zero, size: targetSize)
+            let scale = CGFloat(bitmapRep.pixelsWide) / targetSize.width
+
+            let pixelRect = CGRect(
+                x: targetRect.origin.x * scale,
+                y: targetRect.origin.y * scale,
+                width: targetRect.size.width * scale,
+                height: targetRect.size.height * scale
+            )
+
+            let outputRep: NSBitmapImageRep
+            if let cgImage = bitmapRep.cgImage,
+                let croppedImage = cgImage.cropping(to: pixelRect.integral)
+            {
+                let outputPixelWidth = max(Int(round(targetRect.size.width)), 1)
+                let outputPixelHeight = max(Int(round(targetRect.size.height)), 1)
+                let resizedRep = NSBitmapImageRep(
+                    bitmapDataPlanes: nil,
+                    pixelsWide: outputPixelWidth,
+                    pixelsHigh: outputPixelHeight,
+                    bitsPerSample: 8,
+                    samplesPerPixel: 4,
+                    hasAlpha: true,
+                    isPlanar: false,
+                    colorSpaceName: .deviceRGB,
+                    bytesPerRow: 0,
+                    bitsPerPixel: 0
+                )
+
+                if let resizedRep {
+                    NSGraphicsContext.saveGraphicsState()
+                    if let context = NSGraphicsContext(bitmapImageRep: resizedRep) {
+                        NSGraphicsContext.current = context
+                        context.cgContext.interpolationQuality = .high
+                        context.cgContext.draw(
+                            croppedImage,
+                            in: CGRect(
+                                origin: .zero,
+                                size: CGSize(
+                                    width: CGFloat(outputPixelWidth),
+                                    height: CGFloat(outputPixelHeight)
+                                )
+                            )
+                        )
+                        context.cgContext.flush()
+                    }
+                    NSGraphicsContext.restoreGraphicsState()
+                    outputRep = resizedRep
+                } else {
+                    outputRep = NSBitmapImageRep(cgImage: croppedImage)
+                }
+            } else {
+                outputRep = bitmapRep
+            }
+
+            guard let data = outputRep.representation(using: .png, properties: [:]) else {
                 return Data()
             }
 

@@ -11,4 +11,5 @@ import Foundation
 public enum DeviceCategory: String, CaseIterable, Sendable {
     case iPhone
     case iPad
+    case mac
 }

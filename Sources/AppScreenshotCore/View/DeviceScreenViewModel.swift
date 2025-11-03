@@ -71,6 +71,21 @@ extension AppScreenshotDevice: DeviceScreenViewModel {
             case .portrait: CGSize(width: 1024, height: 1366)
             case .landscape: CGSize(width: 1366, height: 1024)
             }
+        case .macBookPro16M4:
+            return switch orientation {
+            case .portrait: CGSize(width: 1117, height: 1728)
+            case .landscape: CGSize(width: 1728, height: 1117)
+            }
+        case .macBookPro14M4:
+            return switch orientation {
+            case .portrait: CGSize(width: 982, height: 1512)
+            case .landscape: CGSize(width: 1512, height: 982)
+            }
+        case .macBookAir13:
+            return switch orientation {
+            case .portrait: CGSize(width: 832, height: 1280)
+            case .landscape: CGSize(width: 1280, height: 832)
+            }
         case .iPad:
             return switch orientation {
             case .portrait: CGSize(width: 768, height: 1024)
@@ -111,6 +126,8 @@ extension AppScreenshotDevice: DeviceScreenViewModel {
             return EdgeInsets(top: 24, leading: 0, bottom: 20, trailing: 0)
         case .iPadPro13M4, .iPadPro11M4, .iPadAir13M2, .iPadAir11M2:
             return EdgeInsets(top: 24, leading: 0, bottom: 20, trailing: 0)
+        case .macBookPro16M4, .macBookPro14M4, .macBookAir13:
+            return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         }
     }
 
@@ -118,6 +135,8 @@ extension AppScreenshotDevice: DeviceScreenViewModel {
         switch model.category {
         case .iPad:
             // iPadは常にregular
+            return .regular
+        case .mac:
             return .regular
         case .iPhone:
             switch orientation {
@@ -140,6 +159,8 @@ extension AppScreenshotDevice: DeviceScreenViewModel {
         switch model.category {
         case .iPad:
             // iPadは常にregular
+            return .regular
+        case .mac:
             return .regular
         case .iPhone:
             switch orientation {

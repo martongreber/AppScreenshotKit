@@ -31,10 +31,14 @@ public enum DeviceModel: String, Sendable {
     case iPadAir13M2 = "iPad Air 13\" - M2"
     case iPad = "iPad"
     case iPadMini = "iPad mini"
+    case macBookPro16M4 = "MacBook Pro M4 16-inch"
+    case macBookPro14M4 = "MacBook Pro M4 14-inch"
+    case macBookAir13 = "MacBook Air 13\" - 4th Gen"
 
     public var category: DeviceCategory {
         switch self {
         case .iPadPro11M4, .iPadPro13M4, .iPadAir11M2, .iPadAir13M2, .iPadMini, .iPad: .iPad
+        case .macBookPro16M4, .macBookPro14M4, .macBookAir13: .mac
         default: .iPhone
         }
     }
@@ -50,6 +54,9 @@ public enum DeviceModel: String, Sendable {
         case .iPadAir13M2, .iPadPro13M4: "13"
         case .iPadAir11M2, .iPadPro11M4: "11"
         case .iPad, .iPadMini: "9_7"
+        case .macBookPro16M4: "16"
+        case .macBookPro14M4: "14"
+        case .macBookAir13: "13"
         }
     }
 }

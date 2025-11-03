@@ -23,16 +23,30 @@ struct Bezel<Content: View>: View {
             .aspectRatio(contentMode: .fit)
             .background {
                 GeometryReader { proxy in
+                    let bezelDefinition = model.appldeBezelDefinition
+                    let scale = min(
+                        proxy.size.width / bezelDefinition.imageSize.width,
+                        proxy.size.height / bezelDefinition.imageSize.height
+                    )
+                    let scaledScreenOrigin = CGPoint(
+                        x: bezelDefinition.screenRect.origin.x * scale,
+                        y: bezelDefinition.screenRect.origin.y * scale
+                    )
+                    let scaledScreenSize = CGSize(
+                        width: bezelDefinition.screenRect.size.width * scale,
+                        height: bezelDefinition.screenRect.size.height * scale
+                    )
+                    let contentScaleX = scaledScreenSize.width / model.screenSize.width
+                    let contentScaleY = scaledScreenSize.height / model.screenSize.height
+
                     ScreenContentView {
                         content
                     }
                     .scaleEffect(
-                        CGSize(
-                            width: proxy.size.width / model.deviceViewSize.width,
-                            height: proxy.size.height / model.deviceViewSize.height
-                        )
+                        CGSize(width: contentScaleX, height: contentScaleY),
+                        anchor: .topLeading
                     )
-                    .position(x: proxy.frame(in: .local).midX, y: proxy.frame(in: .local).midY)
+                    .offset(x: scaledScreenOrigin.x, y: scaledScreenOrigin.y)
                 }
             }
     }

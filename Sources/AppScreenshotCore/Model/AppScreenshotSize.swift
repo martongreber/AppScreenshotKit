@@ -45,12 +45,13 @@ extension AppScreenshotSize {
     >(
         of model: DeviceModel,
         color: Color.Type = Color.self,
-        size: Size.Type = Size.self
+        size: Size.Type = Size.self,
+        orientations: [DeviceOrientation] = Array(DeviceOrientation.allCases)
     )
         -> [AppScreenshotSize]
     {
         var sizeList = [AppScreenshotSize]()
-        for orientation in DeviceOrientation.allCases {
+        for orientation in orientations {
             for color in Color.allCases {
                 for size in Size.allCases {
                     sizeList.append(
@@ -75,6 +76,6 @@ extension AppScreenshotSize {
     /// a comprehensive set of screenshot specifications for all supported devices.
     static var all: [AppScreenshotSize] {
         Self.iPad97InchAll + Self.iPad110InchAll + Self.iPad130InchAll + Self.iPhone61InchAll
-            + Self.iPhone63InchAll + Self.iPhone69InchAll
+            + Self.iPhone63InchAll + Self.iPhone69InchAll + Self.macAll
     }
 }

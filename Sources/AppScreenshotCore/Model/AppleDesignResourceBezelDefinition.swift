@@ -199,6 +199,33 @@ struct AppleDesignResourceBezelDefinition {
                 self.imageSize = CGSize(width: 2980, height: 2300)
                 self.screenRect = CGRect(x: 124, y: 126, width: 2732, height: 2048)
             }
+        case .macBookPro16M4:
+            switch orientation {
+            case .portrait:
+                self.imageSize = CGSize(width: 2860, height: 4340)
+                self.screenRect = CGRect(x: 313, y: 442, width: 2234, height: 3456)
+            case .landscape:
+                self.imageSize = CGSize(width: 4340, height: 2860)
+                self.screenRect = CGRect(x: 442, y: 313, width: 3456, height: 2234)
+            }
+        case .macBookPro14M4:
+            switch orientation {
+            case .portrait:
+                self.imageSize = CGSize(width: 2564, height: 3944)
+                self.screenRect = CGRect(x: 300, y: 460, width: 1964, height: 3024)
+            case .landscape:
+                self.imageSize = CGSize(width: 3944, height: 2564)
+                self.screenRect = CGRect(x: 460, y: 300, width: 3024, height: 1964)
+            }
+        case .macBookAir13:
+            switch orientation {
+            case .portrait:
+                self.imageSize = CGSize(width: 2100, height: 3220)
+                self.screenRect = CGRect(x: 218, y: 330, width: 1664, height: 2560)
+            case .landscape:
+                self.imageSize = CGSize(width: 3220, height: 2100)
+                self.screenRect = CGRect(x: 330, y: 218, width: 2560, height: 1664)
+            }
         case .iPadMini:
             switch orientation {
             case .portrait:

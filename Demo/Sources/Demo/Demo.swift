@@ -4,7 +4,7 @@
 import AppScreenshotKit
 import SwiftUI
 
-@AppScreenshot(.iPhone69Inch(), .iPad130Inch(), options: .tiles(4))
+@AppScreenshot(.iPhone69Inch(), .iPad97Inch(), options: .tiles(4))
 struct READMEDemo: View {
 
     @Environment(\.appScreenshotEnvironment) var environment

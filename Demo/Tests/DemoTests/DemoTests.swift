@@ -1,5 +1,6 @@
 import AppScreenshotKitTestTools
 import Testing
+import Foundation
 
 @testable import Demo
 
@@ -8,7 +9,7 @@ import Testing
     let outputDirectoryURL = try AppScreenshotKitUtils.packageURL().appending(path: "Screenshots")
 
     let exporter = AppScreenshotExporter(option: .file(outputURL: outputDirectoryURL))
+    exporter.setAppleDesignResourceURL(URL(filePath: "/Users/martongreber/Documents/AppleDesignResources"))
 
     try exporter.export(READMEDemo.self)
-    try exporter.export(LocaleDemo.self)
 }

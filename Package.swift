@@ -7,7 +7,7 @@ import PackageDescription
 let package = Package(
     name: "AppScreenshotKit",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v18),
         .macOS(.v14),
     ],
     products: [
@@ -18,10 +18,6 @@ let package = Package(
         .library(
             name: "AppScreenshotKitTestTools",
             targets: ["AppScreenshotKitTestTools"]
-        ),
-        .executable(
-            name: "AppScreenshotKitCLI",
-            targets: ["AppScreenshotKitCLI"]
         ),
     ],
     dependencies: [
@@ -51,12 +47,6 @@ let package = Package(
                 "SwiftFormatLintCommand",
             ]
         ),
-        .executableTarget(
-            name: "AppScreenshotKitCLI",
-            plugins: [
-                "SwiftFormatLintCommand"
-            ]
-        ),
         .plugin(
             name: "RegisterBezelsCommand",
             capability: .buildTool()
@@ -72,10 +62,6 @@ let package = Package(
         .testTarget(
             name: "AppScreenshotKitTestToolsTests",
             dependencies: ["AppScreenshotKitTestTools"]
-        ),
-        .testTarget(
-            name: "AppScreenshotKitCLITests",
-            dependencies: ["AppScreenshotKitCLI"]
         ),
         .target(
             name: "AppScreenshotMacro",

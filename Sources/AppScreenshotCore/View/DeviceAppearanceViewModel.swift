@@ -96,6 +96,7 @@ extension AppScreenshotDevice: DeviceAppearanceViewModel {
         case .iPadAir13M2, .iPadPro13M4: 44
         case .iPadMini, .iPad: 60
         case .iPadAir11M2, .iPadPro11M4: 54
+        case .macBookPro16M4, .macBookPro14M4, .macBookAir13: 14
         }
     }
 
@@ -108,6 +109,8 @@ extension AppScreenshotDevice: DeviceAppearanceViewModel {
             return 6
         case .iPadMini, .iPadAir11M2, .iPadAir13M2, .iPadPro11M4, .iPadPro13M4, .iPad:
             return 8
+        case .macBookPro16M4, .macBookPro14M4, .macBookAir13:
+            return 10
         }
     }
 
@@ -137,6 +140,7 @@ extension AppScreenshotDevice: DeviceAppearanceViewModel {
         case .iPadAir11M2, .iPadAir13M2: 18
         case .iPadMini: 21.5
         case .iPad: 0
+        case .macBookPro16M4, .macBookPro14M4, .macBookAir13: 20
         }
     }
 }

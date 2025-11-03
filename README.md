@@ -30,7 +30,7 @@ AppScreenshotKit is a Swift package that automates creating App Store screenshot
 </div>
 </details>
 
-> **Important**: Before using AppScreenshotKit, you need to download Apple's official device bezel images using the included CLI tool. See the [CLI Tool](#cli-tool) section for instructions.
+> **Important**: Before using AppScreenshotKit, download Apple's official device bezel images and place them at `~/Library/Caches/com.shitamori1272.AppScreenshotKit/AppleDesignResource/Bezels` (or point the exporter at your custom location).
 
 ## Features
 
@@ -38,7 +38,7 @@ AppScreenshotKit is a Swift package that automates creating App Store screenshot
 - 🖼️ **App Store Compliant**: Produces screenshots at the proper resolutions for App Store submission
 - 🧩 **Flexible Customization**: Configure devices, orientations, locales, and tile counts with a simple API
 - 🔄 **Batch Processing**: Generate screenshots for multiple devices, locales, and tile layouts in one call
-- 💻 **Cross-platform**: Works on both macOS (CLI) and iOS (SwiftUI previews)
+- 💻 **Cross-platform**: Works on macOS for automated exports and integrates with SwiftUI previews
 - 🌐 **Localization Support**: Generate screenshots for multiple locales
 - 🪄 **SwiftUI Macro**: Simple and type-safe screenshot definition with the `@AppScreenshot` macro
 - 🔄 **Live Updates**: Screenshots automatically update when your app's UI changes, keeping them in sync with your code
@@ -251,7 +251,7 @@ The `AppScreenshotExporter` automatically handles:
 AppScreenshotKit can incorporate Apple's official device bezel images to create professional, App Store-quality screenshots. This is one of the package's most powerful features, allowing you to display your app inside beautiful, accurate device frames.
 
 **Prerequisites**:
-1. You must first download the bezel assets using the CLI tool (see [CLI Tool](#cli-tool) section)
+1. Download Apple's latest bezel assets from the [Design Resources](https://developer.apple.com/design/resources/) page and place the `Bezels` directory at `~/Library/Caches/com.shitamori1272.AppScreenshotKit/AppleDesignResource/Bezels`, or provide a custom path via `setAppleDesignResourceURL(_:)`.
 
 **Export your screenshots with bezels using the `AppScreenshotExporter`**:
 
@@ -264,7 +264,7 @@ try exporter.export(MyAppScreenshots.self)
 If you downloaded the bezel images to a custom location, you need to specify that path:
 
 ```swift
-// Only needed if you used a custom output path with the CLI tool
+// Only needed if you stored the bezels at a custom path
 let bezelResourcesURL = URL(fileURLWithPath: "/path/to/custom/bezels")
 exporter.setAppleDesignResourceURL(bezelResourcesURL)
 try exporter.export(MyAppScreenshots.self)
@@ -287,36 +287,15 @@ Preview your screenshots in Xcode without exporting files:
 }
 ```
 
-### CLI Tool
+### Downloading Apple Bezels
 
-AppScreenshotKit requires Apple's official device bezel images for the best results. These images are not included in the package and must be downloaded separately using the provided CLI tool.
+AppScreenshotKit requires Apple's official device bezel images for the best results. These assets are not redistributed with the package, so you need to download them directly from Apple:
 
-**Important: This step is required before using device bezels in your screenshots.**
+1. Visit [Apple’s Design Resources](https://developer.apple.com/design/resources/) page and download the latest device bezels (Sketch or DMG bundles).
+2. Extract the archive and copy the `Bezels` directory into `~/Library/Caches/com.shitamori1272.AppScreenshotKit/AppleDesignResource/Bezels`.
+3. Alternatively, keep the bezels anywhere on disk and point the exporter to that directory using `setAppleDesignResourceURL(_:)`.
 
 > **Note**: Before downloading and using Apple's official device bezel images, please review and understand [Apple's marketing guidelines](https://developer.apple.com/app-store/marketing/guidelines/#section-products) to ensure proper usage of Apple's design resources.
-
-```bash
-# Download bezel images
-swift run AppScreenshotKitCLI download-bezel-image
-```
-
-The CLI tool will:
-1. Download Apple's official design resources
-2. Extract the required bezel images
-3. Store them automatically in the system's cache directory
-4. Set up the necessary file structure for AppScreenshotKit to use
-
-You can optionally specify a custom output directory if needed:
-```bash
-swift run AppScreenshotKitCLI download-bezel-image --output /path/to/custom/location
-```
-
-You should run this command:
-- When setting up AppScreenshotKit for the first time
-- When you want to update the bezel images to the latest versions from Apple
-- In your CI/CD pipeline to ensure bezels are available for automated screenshot generation
-
-Once downloaded, the bezel images will be automatically detected when using the AppScreenshotExporter.
 
 ## Configuration Options
 
